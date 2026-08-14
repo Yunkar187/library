@@ -16,10 +16,4 @@ public class AuthorService {
     public List<Author> findAll() {
         return authorRepo.findAll();
     }
-    @PostConstruct
-    private void test() {
-
-        System.out.println("Init controller");
-
-    }
 }
