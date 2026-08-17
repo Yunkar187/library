@@ -16,4 +16,8 @@ public class AuthorService {
     public List<Author> findAll() {
         return authorRepo.findAll();
     }
+
+    public void create(Author author) {
+        authorRepo.save(author);
+    }
 }

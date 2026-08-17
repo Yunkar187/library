@@ -2,28 +2,33 @@ package yunkar.controller;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import yunkar.model.Author;
 import yunkar.service.AuthorService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/author")
 public class AuthorController {
     private final AuthorService authorService;
+
     public AuthorController(AuthorService authorService) {
         this.authorService = authorService;
     }
 
     @GetMapping("/get")
-    public List<Author> findAll() {
+    public List<Author> findAll(@RequestHeader Map<String, String> headers) {
+        headers.forEach((key, value) -> System.out.println(key + " : " + value));
+
         return authorService.findAll();
     }
-//testing123321
-    //testing
 
-    //toyinhor
+    @PostMapping("/create")
+    public String create(Author author) {
+        authorService.create(author);
+        return "";
+    }
+
 }
