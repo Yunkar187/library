@@ -32,11 +32,19 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
 
         // Lấy API Key từ Header
         String apiKey = request.getHeader(API_KEY_HEADER);
+        String requestRole = request.getHeader("role");
+        System.out.println("requestRole: " + requestRole);
 
         // Kiểm tra tính hợp lệ của API Key
         if (VALID_API_KEY.equals(apiKey)) {
-            // Tạo danh sách quyền chứa ROLE_USER
-            List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_USER");
+            // Tạo danh sách quyền chứa ROLE_
+            List<GrantedAuthority> authorities = null;
+            if (requestRole.equals("user")) {
+                authorities = AuthorityUtils.createAuthorityList("ROLE_USER");
+            }else{
+                authorities =  AuthorityUtils.createAuthorityList("ROLE_ADMIN");
+            }
+
             // Tạo đối tượng Authentication và set vào SecurityContext
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(apiKey, null,authorities);
